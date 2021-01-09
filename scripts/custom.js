@@ -10,12 +10,21 @@ $(document).ready(function(){
     var isAJAX = true; //Enables or disable AJAX page transitions and loading.
     var isDevelopment = false; // Enables development mode. Clean cache & Stops BG & Highlights from changing defaults.
     
+    //Generating Cookies
+    function createCookie(e, t, n) {if (n) {var o = new Date;o.setTime(o.getTime() + 48 * n * 60 * 3600 * 1e3);var r = "; expires=" + o.toGMTString()} else var r = "";document.cookie = e + "=" + t + r + "; path=/"}
+    function readCookie(e) {for (var t = e + "=", n = document.cookie.split(";"), o = 0; o < n.length; o++) {for (var r = n[o];" " == r.charAt(0);) r = r.substring(1, r.length);if (0 == r.indexOf(t)) return r.substring(t.length, r.length)}return null}
+    function eraseCookie(e) {createCookie(e, "", -1)}
+
 	function init_template(){
                 
         //ADD YOUR CUSTOM JAVASCRIPT CODES HERE! 
         //Do not put inside HTML files.
         //The init_template() function will be triggered when pages open.
-        
+                //Redirect to splash on first visit
+        if(readCookie('viewed') == undefined){
+          createCookie('viewed', true, 1);
+          window.location.assign("/jortec-pwa/splash.html");
+        }
                
         //Generating Dynamic Styles to decrease CSS size and execute faster loading times. 
         var colorsArray = [
@@ -164,10 +173,7 @@ $(document).ready(function(){
             return false;
         });
 
-        //Generating Cookies
-        function createCookie(e, t, n) {if (n) {var o = new Date;o.setTime(o.getTime() + 48 * n * 60 * 3600 * 1e3);var r = "; expires=" + o.toGMTString()} else var r = "";document.cookie = e + "=" + t + r + "; path=/"}
-        function readCookie(e) {for (var t = e + "=", n = document.cookie.split(";"), o = 0; o < n.length; o++) {for (var r = n[o];" " == r.charAt(0);) r = r.substring(1, r.length);if (0 == r.indexOf(t)) return r.substring(t.length, r.length)}return null}
-        function eraseCookie(e) {createCookie(e, "", -1)}
+
 
         //Disabling & Enabling Dark Transitions in Dark Mode to Speed up Performance.
         function allowTransitions(){$('body').find('#transitions-remove').remove();}
@@ -214,13 +220,6 @@ $(document).ready(function(){
         if($('body').hasClass('detect-theme')){setColorScheme();}
         $('.detect-dark-mode').on('click',function(){ $('body').addClass('detect-theme'); setColorScheme(); return false;});
         $('.disable-auto-dark-mode').on('click',function(){ $('body').removeClass('detect-theme'); $(this).remove(); return false;});
-
-
-        //Redirect to splash on first visit
-          if(readCookie('viewed') == undefined){
-            createCookie('viewed', true, 1);
-            window.location.assign("/jortec-pwa/splash.html");
-          }
 
         //Footer Menu Active Elements
         if($('.footer-bar-2, .footer-bar-4, .footer-bar-5').length){
