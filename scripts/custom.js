@@ -215,6 +215,13 @@ $(document).ready(function(){
         $('.detect-dark-mode').on('click',function(){ $('body').addClass('detect-theme'); setColorScheme(); return false;});
         $('.disable-auto-dark-mode').on('click',function(){ $('body').removeClass('detect-theme'); $(this).remove(); return false;});
 
+
+        //Redirect to splash on first visit
+          if(readCookie('viewed') == undefined){
+            createCookie('viewed', true, 1);
+            window.location.assign("/jortec-pwa/splash.html");
+          }
+
         //Footer Menu Active Elements
         if($('.footer-bar-2, .footer-bar-4, .footer-bar-5').length){
             if(!$('.footer-bar-2 strong, .footer-bar-4 strong, .footer-bar-5 strong').length){
@@ -877,8 +884,8 @@ $(document).ready(function(){
         //Adding Offline Alerts
         var offlineAlerts = $('.offline-message');
         if(!offlineAlerts.length){
-            $('body').append('<p class="offline-message bg-red2-dark color-white center-text uppercase ultrabold">No internet connection detected</p> ');
-            $('body').append('<p class="online-message bg-green1-dark color-white center-text uppercase ultrabold">You are back online</p>');
+            $('body').append('<p class="offline-message bg-red2-dark color-white center-text uppercase ultrabold">Não existe ligação à internet</p> ');
+            $('body').append('<p class="online-message bg-green1-dark color-white center-text uppercase ultrabold">Ligação estabelecida</p>');
         }
 
         //Offline Function Show
