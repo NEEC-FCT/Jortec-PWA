@@ -1,6 +1,6 @@
 {
-  "version": "0.0.1",
-  "lang" : "en",
+  "version": "0.0.0.1",
+  "lang" : "pt",
   "name" : "JORTEC ELETRO",
   "scope" : "https://jortec-eletro.neec-fct.com/jortec-pwa/",
   "display" : "fullscreen",

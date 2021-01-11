@@ -9,7 +9,7 @@ if ('serviceWorker' in navigator) {
 $(document).ready(function(){      
     'use strict'	
     
-    var pwaVersion = '0.0.1'; //must be identical to _manifest.json version. If not it will create update window loop
+    var pwaVersion = '0.0.0.1'; //must be identical to _manifest.json version. If not it will create update window loop
     var pwaCookie = true; // if set to false, the PWA prompt will appear even if the user selects "maybe later"
     var pwaNoCache = true; // always keep the cache clear to serve the freshest possible content
     
@@ -112,11 +112,11 @@ $(document).ready(function(){
     };
     //Update Version in 5 Seconds After New Version Detected
     function updateButton(){
-        var counter = 3;
+        var counter = 5;
         var interval = setInterval(function() {
             counter--;
             console.log(counter);
-            $('.page-update').html('Updating in ... '+ counter + ' seconds');
+            $('.page-update').html('Atualizando em ... '+ counter + ' segundos');
             if (counter == 0) {
                 clearInterval(interval);
                 window.location.reload(true)
@@ -132,6 +132,7 @@ $(document).ready(function(){
             caches.delete(cacheName);
           });
         });
+        
     };
         
     //Check Version    
