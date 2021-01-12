@@ -8,7 +8,7 @@ $(document).ready(function(){
   
   var isPWA = true; //Enables PWA.js which loads manifest & service worker.
   var isAJAX = true; //Enables or disable AJAX page transitions and loading.
-  var isDevelopment = true; // Enables development mode. Clean cache & Stops BG & Highlights from changing defaults.
+  var isDevelopment = false; // Enables development mode. Clean cache & Stops BG & Highlights from changing defaults.
   
   //Generating Cookies
   function createCookie(e, t, n) {if (n) {var o = new Date;o.setTime(o.getTime() + 48 * n * 60 * 3600 * 1e3);var r = "; expires=" + o.toGMTString()} else var r = "";document.cookie = e + "=" + t + r + "; path=/"}
@@ -23,7 +23,7 @@ function init_template(){
               //Redirect to splash on first visit
       if(readCookie('viewed') == undefined && !isDevelopment){
         createCookie('viewed', true, 1);
-        window.location.assign("/jortec-pwa/splash.html");
+        window.location.assign("splash.html");
       }
              
       //Generating Dynamic Styles to decrease CSS size and execute faster loading times. 
