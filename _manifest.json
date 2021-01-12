@@ -1,16 +1,16 @@
 {
   "version": "0.0.0.1",
-  "lang" : "pt",
-  "name" : "JORTEC ELETRO",
-  "scope" : "https://jortec-eletro.neec-fct.com/jortec-pwa/",
-  "display" : "fullscreen",
-  "start_url" : "https://jortec-eletro.neec-fct.com/jortec-pwa/index.html",
-  "short_name" : "JORTEC",
-  "description" : "",
-  "orientation" : "portrait",
+  "lang": "pt",
+  "name": "JORTEC ELETRO",
+  "scope": "https://jortec-eletro.neec-fct.com/jortec-pwa/",
+  "display": "fullscreen",
+  "start_url": "https://jortec-eletro.neec-fct.com/jortec-pwa/index.html",
+  "short_name": "JORTEC",
+  "description": "",
+  "orientation": "portrait",
   "background_color": "#000000",
   "theme_color": "#FFFFFF",
-  "generated" : "true",
+  "generated": "true",
   "icons": [
     {
       "src": "app/icons/icon-72x72.png",
@@ -53,4 +53,4 @@
       "type": "image/png"
     }
   ]
-  }
+}
