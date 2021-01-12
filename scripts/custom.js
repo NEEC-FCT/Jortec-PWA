@@ -36,7 +36,6 @@ $(document).ready(function () {
           let i = 0, k = 0;
           data.dias.forEach(dia => {
             i++;
-            console.log(dia);
             html_temp += `
             <div class="card card-style">
               <div class="list-group list-custom-small list-icon-0 bg-dark1-dark pl-3 pr-4 pt-1">
@@ -50,6 +49,9 @@ $(document).ready(function () {
             `;
             k = 0;
             dia.workshops.forEach(workshop => {
+              if (k) {
+                html_temp += '<div class="divider mt-4"></div>';
+              }
               html_temp += `
               <div class="d-flex">
               <div class="w-35 border-right pr-3 border-grey1-dark">
@@ -76,9 +78,6 @@ $(document).ready(function () {
               html_temp += `
                 </div>
               `;
-              if (k) {
-                html_temp += '<div class="divider mt-4"></div>';
-              }
               k++;
             });
             html_temp += `
