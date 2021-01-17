@@ -8,7 +8,7 @@ $(document).ready(function () {
 
   var isPWA = true; //Enables PWA.js which loads manifest & service worker.
   var isAJAX = true; //Enables or disable AJAX page transitions and loading.
-  var isDevelopment = false; // Enables development mode. Clean cache & Stops BG & Highlights from changing defaults.
+  var isDevelopment = true; // Enables development mode. Clean cache & Stops BG & Highlights from changing defaults.
 
   //Generating Cookies
   function createCookie(e, t, n) { if (n) { var o = new Date; o.setTime(o.getTime() + 48 * n * 60 * 3600 * 1e3); var r = "; expires=" + o.toGMTString() } else var r = ""; document.cookie = e + "=" + t + r + "; path=/" }
