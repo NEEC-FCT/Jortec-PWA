@@ -9,7 +9,7 @@ if ('serviceWorker' in navigator) {
 $(document).ready(function () {
   'use strict'
 
-  var pwaVersion = '0.0.0.1'; //must be identical to _manifest.json version. If not it will create update window loop
+  var pwaVersion = '0.0.0.5'; //must be identical to _manifest.json version. If not it will create update window loop
   var pwaCookie = true; // if set to false, the PWA prompt will appear even if the user selects "maybe later"
   var pwaNoCache = true; // always keep the cache clear to serve the freshest possible content
 
@@ -167,7 +167,7 @@ $(document).ready(function () {
         }, 3000);
       }
       //Checking for new version every 60 seconds
-      setInterval(function () { versionCheck() }, 50000);
+      setInterval(function () { versionCheck() }, 60000);
       //Initial Load Version Check in 10 Second After Load
       setTimeout(function () { versionCheck(); }, 10000);
     }
