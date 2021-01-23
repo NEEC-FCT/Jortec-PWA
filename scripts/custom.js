@@ -27,7 +27,7 @@ $(document).ready(function () {
     }
 
     //Workshops
-    let lista_workshops = $('.lista-workshops');;
+    let lista_workshops = $('.lista-workshops');
     if (lista_workshops.length) {
       fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshops.php")
         .then(data => { return data.json() })
