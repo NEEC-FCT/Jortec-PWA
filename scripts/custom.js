@@ -3,6 +3,8 @@ $(window).on('load', function () {
   $('#preloader').addClass('preloader-hide');
 })
 
+let subscribeWorkshop;
+
 $(document).ready(function () {
   'use strict'
 
@@ -26,41 +28,69 @@ $(document).ready(function () {
       window.location.assign("splash.html");
     }
 
-    //Workshops
-    let ws1 = $('.ws1');
-    if (ws1.length) {
+    const getToken = () => localStorage.token;
+
+    subscribeWorkshop = (wid, inscricao = true) => {
+      $('.' + wid).html(`<div class="spinner-border color-highlight mb-2" role="status"></div>`);
+
+      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshops.php", {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify({
+          wid,
+          inscricao,
+          token: getToken()
+        })
+      })
+        .then(data => data.json())
+        .then(data => refreshWorkshopButtons()) //Verificar resultado, apresentar modal, actualizar botões
+        .catch(err => {
+          console.error(err);
+          $('.' + wid).html(`<div
+          class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro durante o pedido</div>`);
+        });
+    }
+
+    const refreshWorkshopButtons = () => {
       fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshops.php")
-        .then(data => { return data.json() })
+        .then(data => data.json())
         .then(data => {
           let html_temp;
           data.forEach(workshop => {
             if (workshop.naoAnunciado) {
               html_temp = `<div
-            class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">A ser anunciado...</div>`;
+        class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">A ser anunciado...</div>`;
             } else if (workshop.inscrito) {
-              html_temp = `<a href="#` + workshop.wid + `"
-          class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">Inscrito</a>`;
+              html_temp = `<div onClick="subscribeWorkshop('` + workshop.wid + `', false)"
+      class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">Inscrito</div>`;
             } else if (workshop.cheio) {
               html_temp = `<div
-          class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Esgotado</div>`;
+      class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Esgotado</div>`;
             } else {
-              html_temp = `<a href="#` + workshop.wid + `"
-          class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full">Inscreve-te</a>`;
+              html_temp = `<div onClick="subscribeWorkshop('` + workshop.wid + `')"
+      class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full">Inscreve-te</div>`;
             }
             $('.' + workshop.wid).html(html_temp);
           })
         })
-        .catch(() => {
-          let html_temp;
+        .catch(err => {
+          console.warn(err);
           console.warn("Não foi possivel obter os workshops");
-          html_temp = `<div
-          class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro ao verificar</div>`;
+          let html_temp = `<div
+      class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro ao verificar</div>`;
           for (let i = 1; i <= 6; i++) {
             $('.ws' + i).html(html_temp);
           }
         });
-    }
+    };
 
+    //Workshops
+    let ws1 = $('.ws1');
+    if (ws1.length) {
+      refreshWorkshopButtons();
+    }
 
     //Generating Dynamic Styles to decrease CSS size and execute faster loading times. 
     var colorsArray = [
