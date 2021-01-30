@@ -27,75 +27,37 @@ $(document).ready(function () {
     }
 
     //Workshops
-    let lista_workshops = $('.lista-workshops');
-    if (lista_workshops.length) {
+    let ws1 = $('.ws1');
+    if (ws1.length) {
       fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshops.php")
         .then(data => { return data.json() })
         .then(data => {
-          let html_temp = "";
-          let i = 0, k = 0;
-          data.dias.forEach(dia => {
-            i++;
-            html_temp += `
-            <div class="card card-style">
-              <div class="list-group list-custom-small list-icon-0 bg-dark1-dark pl-3 pr-4 pt-1">
-                <a href="#collapse-` + i + `" data-toggle="collapse" class="" aria-expanded="true">
-                  <i class="far font-21 fa-calendar"></i>
-                  <span class="font-21 color-white">Dia ` + dia.dia + `</span>
-                  <i class="fa fa-angle-down"></i>
-                </a>
-              </div>
-              <div class="pl-2 pr-4 pt-4 collapse show" id="collapse-` + i + `">
-            `;
-            k = 0;
-            dia.workshops.forEach(workshop => {
-              if (k) {
-                html_temp += '<div class="divider mt-4"></div>';
-              }
-              html_temp += `
-              <div class="d-flex">
-              <div class="w-35 border-right pr-3 border-grey1-dark">
-                <img src="images/workshops/` + workshop.imagem + `" data-src="images/workshops/` + workshop.imagem + `" width="80"
-                  class="rounded-circle preload-img">
-              </div>
-              <div class="w-65 pl-3">
-                <h4>` + workshop.nome + `</h4>
-                <p class="color-blue2-dark mt-n3 font-11 pt-1 mb-0"><i class="fas fa-clock mr-1"></i>` + workshop.horas + `</p>
-                <p class="mb-0">dado por <span class="font-13">` + workshop.dado_por + `</span></p>
-              </div>
-            </div>
-            <div class="mt-3 col-auto">`;
-              if (workshop.inscrito) {
-                html_temp += `<a href="#` + workshop.wid + `"
-              class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">Inscrito</a>`;
-              } else if (workshop.cheio) {
-                html_temp += `<a href="#` + workshop.wid + `"
-              class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Esgotado</a>`;
-              } else {
-                html_temp += `<a href="#` + workshop.wid + `"
-              class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full">Inscreve-te</a>`;
-              }
-              html_temp += `
-                </div>
-              `;
-              k++;
-            });
-            html_temp += `
-              </div>
-            </div>`;
-          });
-          lista_workshops.html(html_temp);
+          let html_temp;
+          data.forEach(workshop => {
+            if (workshop.naoAnunciado) {
+              html_temp = `<div
+            class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">A ser anunciado...</div>`;
+            } else if (workshop.inscrito) {
+              html_temp = `<a href="#` + workshop.wid + `"
+          class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">Inscrito</a>`;
+            } else if (workshop.cheio) {
+              html_temp = `<div
+          class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Esgotado</div>`;
+            } else {
+              html_temp = `<a href="#` + workshop.wid + `"
+          class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full">Inscreve-te</a>`;
+            }
+            $('.' + workshop.wid).html(html_temp);
+          })
         })
         .catch(() => {
+          let html_temp;
           console.warn("Não foi possivel obter os workshops");
-          lista_workshops.html(`
-          <div class="card card-style bg-dark1-dark">
-            <div div class= "content">
-              <h1 class="color-red1-light text-center pb-3">Não foi possível obter a lista de workshops</h1>
-              <h6 class="color-red1-light text-center font-14">Por favor tenta novamente mais tarde</h6>
-            </div>
-          </div>
-          `);
+          html_temp = `<div
+          class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro ao verificar</div>`;
+          for (let i = 1; i <= 6; i++) {
+            $('.ws' + i).html(html_temp);
+          }
         });
     }
 
