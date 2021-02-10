@@ -60,7 +60,10 @@ $(document).ready(function () {
         .then(data => {
           let html_temp;
           data.forEach(workshop => {
-            if (workshop.naoAnunciado) {
+            if (getToken() == null || getToken() == undefined) {
+              html_temp = `<a href="login.html"
+              class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full">Entrar na conta</a>`;
+            } else if (workshop.naoAnunciado) {
               html_temp = `<div
         class="btn btn-margins text-uppercase font-900 bg-blue2-dark rounded-sm mb-4 shadow-xl btn-m btn-full">A ser anunciado...</div>`;
             } else if (workshop.inscrito) {
