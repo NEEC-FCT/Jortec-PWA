@@ -37,6 +37,13 @@
 
     <!--start of page content, add your stuff here-->
     <div class="page-content header-clear-small">
+      <div class="content">
+        <h3>Passatempo - JORTEC ELETRO 2021</h3>
+        <p>Aqui podes jogar na roda da sorte e introduzir códigos que irão ser divulgados ao longo do dia principal.</p>
+        <p>O sorteio só começa no dia 12 de fevereiro, aproveita para leres o <a
+            href="termos-condicoes.html">regulamento</a>.</p>
+        <p>Enquanto não podes participar deixamos-te com a roda deste ano!</p>
+      </div>
       <style>
         .roda {
           transform: rotate(0deg);
@@ -44,7 +51,7 @@
         }
 
         .rodar {
-          transform: rotate(-2160deg);
+          transform: rotate(-1980deg);
         }
       </style>
       <div class="card card-style">
@@ -53,8 +60,9 @@
             style="position: absolute; z-index:10;top:50%; left:50%; transform: translate(-50%, -50%);">
           <img src="images/roda/roda.png" alt="Roda da Sorte" class="roda mx-auto" width="300">
         </div>
-        <button
-          onclick="$('.roda').addClass('rodar');setTimeout(()=>$('.roda').removeClass('rodar'),7000);">SPIN</button>
+        <script>setTimeout(() => $('.roda').addClass('rodar'), 2000);</script>
+        <!--<button
+          onclick="$('.roda').addClass('rodar');setTimeout(()=>$('.roda').removeClass('rodar'),7000);">SPIN</button>-->
 
       </div>
 
