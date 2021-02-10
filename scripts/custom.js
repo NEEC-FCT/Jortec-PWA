@@ -28,7 +28,7 @@ $(document).ready(function () {
       window.location.assign("splash.html");
     }
 
-    const getToken = () => localStorage.token;
+    const getToken = () => readCookie('token');
 
     subscribeWorkshop = (wid, inscricao = true) => {
       $('.' + wid).html(`<div class="spinner-border color-highlight mb-2" role="status"></div>`);
@@ -99,6 +99,7 @@ $(document).ready(function () {
       f_registar.submit((event) => {
         event.preventDefault();
         let data = new FormData(document.getElementById('f_registar'));
+        console.log(data);
         fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/register.php",
           {
             method: "post",
@@ -112,20 +113,56 @@ $(document).ready(function () {
               alert(data.mensagem);
               window.location.assign("login.html");
             }
-
           })
           .catch(err => {
             console.log(err);
             alert(err);
           })
-
       });
+    }
+
+
+    let f_entrar = $('#f_entrar');
+    if (f_entrar.length) {
+      f_entrar.submit((event) => {
+        event.preventDefault();
+        let data = new FormData(document.getElementById('f_entrar'));
+        console.log(data);
+        fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/login.php",
+          {
+            method: "post",
+            body: data
+          })
+          .then(data => data.json())
+          .then(data => {
+            if (data.sucesso !== "true") {
+              alert(data.mensagem);
+            } else {
+              createCookie('uid', data.uid, 1);
+              createCookie('token', data.token, 1);
+              window.location.assign("conta.html");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            alert(err);
+          })
+      });
+    }
+
+    let posicao = $('.posicao');
+    if (posicao.length) {
+      if (getToken() != null && getToken() != undefined) {
+
+      } else {
+        window.location.assign("register.html");
+      }
     }
 
     let bt_logout = $('.bt-logout');
     if (bt_logout.length) {
       bt_logout.click(() => {
-        localStorage.token = null;
+        eraseCookie('token');
         window.location.assign("login.html");
       });
     }

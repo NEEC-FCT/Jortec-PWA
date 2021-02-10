@@ -19,9 +19,9 @@ if ($_POST['senha'] !== $_POST['senharep']) {
   die();
 }
 
-$email = $_POST['email'];
-$nome = $_POST['nome'];
-$senha = $_POST['senha'];
+$email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
+$nome = filter_var($_POST['nome'], FILTER_SANITIZE_STRING);
+$senha = filter_var($_POST['senha'], FILTER_SANITIZE_STRING);
 
 require('db.php');
 
