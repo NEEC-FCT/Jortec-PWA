@@ -4,6 +4,7 @@ $(window).on('load', function () {
 })
 
 let subscribeWorkshop;
+let inscreverf;
 
 $(document).ready(function () {
   'use strict'
@@ -146,13 +147,75 @@ $(document).ready(function () {
           .catch(err => {
             console.log(err);
             alert(err);
-          })
+          });
       });
     }
+
+    inscreverf = () => {
+      $('.inscricaop').html(`<div class="spinner-border color-highlight mb-2 mt-4" role="status"></div>`);
+      let formData = new FormData();
+      formData.append("token", getToken());
+      formData.append("uid", readCookie('uid'));
+      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/inscrever.php",
+        {
+          method: "post",
+          body: formData
+        })
+        .then(data => data.json())
+        .then(data => {
+          if (data.sucesso !== "true") {
+            alert(data.mensagem);
+          } else {
+            if (data.inscrito == 0) {
+              $('.inscricaop').html(`
+                <a href="#" onclick="inscreverf()" class="btn btn-full rounded-sm bg-highlight text-uppercase font-700 btn-m mt-4 inscricaobt">Inscrever</a>`);
+            } else {
+              $('.inscricaop').html(`
+                <a href="#" onclick="inscreverf()" class="btn btn-full rounded-sm bg-blue2-dark text-uppercase font-700 btn-m mt-4 inscricaobt">Inscrito</a>`);
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          alert(err);
+          $('.inscricaop').html(`
+                <a href="#" onclick="inscreverf()" class="btn btn-full rounded-sm bg-highlight text-uppercase font-700 btn-m mt-4 inscricaobt">Inscrever</a>`);
+        });
+    };
 
     let posicao = $('.posicao');
     if (posicao.length) {
       if (getToken() != null && getToken() != undefined) {
+        let formData = new FormData();
+        formData.append("token", getToken());
+        formData.append("uid", readCookie('uid'));
+        fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/account.php",
+          {
+            method: "post",
+            body: formData
+          })
+          .then(data => data.json())
+          .then(data => {
+            if (data.sucesso !== "true") {
+              alert(data.mensagem);
+            } else {
+              posicao.html(data.posicao);
+              $('.nomep').html(data.nome);
+              $('.emailp').html(data.email);
+              $('.pontosp').html('Pontos: ' + data.pontos);
+              if (data.inscrito == 0) {
+                $('.inscricaop').html(`
+                <a href="#" onclick="inscreverf()" class="btn btn-full rounded-sm bg-highlight text-uppercase font-700 btn-m mt-4 inscricaobt">Inscrever</a>`);
+              } else {
+                $('.inscricaop').html(`
+                <a href="#" onclick="inscreverf()" class="btn btn-full rounded-sm bg-blue2-dark text-uppercase font-700 btn-m mt-4 inscricaobt">Inscrito</a>`);
+              }
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            alert(err);
+          });
 
       } else {
         window.location.assign("register.html");
