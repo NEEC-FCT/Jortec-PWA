@@ -247,7 +247,22 @@ $(document).ready(function () {
           alert("O ficheiro selecionado é grande demais!");
           return;
         }
-
+        let data = new FormData(document.getElementById('cvform'));
+        data.append("token", getToken());
+        data.append("uid", readCookie('uid'));
+        fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/upload.php",
+          {
+            method: "post",
+            body: data
+          })
+          .then(data => data.json())
+          .then(data => {
+            alert(data.mensagem);
+          })
+          .catch(err => {
+            console.log(err);
+            alert(err);
+          });
       });
     }
 
