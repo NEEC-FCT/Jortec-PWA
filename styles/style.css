@@ -805,7 +805,7 @@ p {
 
 /*Menu Update*/
 #menu-update {
-  background-color: #fff;
+  background-color: #000;
   position: fixed;
   z-index: 9999;
   width: 310px;
