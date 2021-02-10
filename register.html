@@ -44,37 +44,44 @@
 
       <div data-card-height="cover" class="card">
         <div class="card-center">
+          <form action="#" id="f_registar" method="POST">
+            <div class="pl-5 pr-5">
+              <h1 class="color-white text-center text-uppercase font-900 fa-3x">Criar conta</h1>
+              <p class="color-highlight text-center font-12">
+                Introduz os teus dados abaixo para te poderes inscrever e participar no passatempo!
+              </p>
+              <div class="input-style input-light has-icon input-style-1 input-required">
+                <i class="input-icon fa fa-user font-11"></i>
+                <span>Nome</span>
+                <input type="text" name="nome" id="nome" placeholder="Nome" required>
+              </div>
+              <div class="input-style input-light has-icon input-style-1 input-required">
+                <i class="input-icon fa fa-at font-11"></i>
+                <span>Email</span>
+                <input type="email" name="email" id="email" placeholder="Email" required>
+              </div>
+              <div class="input-style input-light has-icon input-style-1 input-required">
+                <i class="input-icon fa fa-lock font-11"></i>
+                <span>Senha</span>
+                <input type="password" name="senha" id="senha" placeholder="Escolha a senha" required>
+              </div>
+              <div class="input-style input-light has-icon input-style-1 input-required mb-5">
+                <i class="input-icon fa fa-lock font-11"></i>
+                <span>Confirmar senha</span>
+                <input type="password" name="senharep" id="senharep" placeholder="Confirme a senha" required>
+              </div>
 
-          <div class="pl-5 pr-5">
-            <h1 class="color-white text-center text-uppercase font-900 fa-3x">Criar conta</h1>
-            <p class="color-highlight text-center font-12">
-              Introduz os teus dados abaixo para te poderes inscrever e participar no passatempo!
-            </p>
-            <div class="input-style input-light has-icon input-style-1 input-required">
-              <i class="input-icon fa fa-at font-11"></i>
-              <span>Email</span>
-              <input type="email" placeholder="Email">
+              <div class="text-center mb-5">
+                <a href="login.html" class="color-white font-12 opacity-60">Já tens conta? Entra aqui</a>
+              </div>
+              <input type="submit" value="Criar" style="display: none;" id="btsub" name="btsub">
+              <label for="btsub" style="width:100%;">
+                <div class="btn btn-full btn-m shadow-large rounded-s text-uppercase font-900 bg-highlight">Criar
+                  conta
+                </div>
+              </label>
             </div>
-            <div class="input-style input-light has-icon input-style-1 input-required">
-              <i class="input-icon fa fa-lock font-11"></i>
-              <span>Senha</span>
-              <input type="password" placeholder="Escolha a senha">
-            </div>
-            <div class="input-style input-light has-icon input-style-1 input-required mb-5">
-              <i class="input-icon fa fa-lock font-11"></i>
-              <span>Password</span>
-              <input type="password" placeholder="Confirme a senha">
-            </div>
-
-            <div class="text-center mb-5">
-              <a href="login.html" class="color-white font-12 opacity-60">Já tens conta? Entra aqui</a>
-            </div>
-
-            <a href="#"
-              class="back-button btn btn-full btn-m shadow-large rounded-s text-uppercase font-900 bg-highlight">Criar
-              conta</a>
-          </div>
-
+          </form>
         </div>
         <div class="card-overlay-infinite preload-img" data-src="images/Logo-JORTEC.png"></div>
         <div class="card-overlay bg-black opacity-85"></div>

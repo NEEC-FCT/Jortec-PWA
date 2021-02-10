@@ -3070,6 +3070,10 @@ span.input-style-1-active {
   font-size: 0px !important;
 }
 
+input[type='file'] {
+  display: none;
+}
+
 input {
   font-size: 12px !important;
 }

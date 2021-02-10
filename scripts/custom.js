@@ -92,6 +92,67 @@ $(document).ready(function () {
       refreshWorkshopButtons();
     }
 
+
+    //conta
+    let f_registar = $('#f_registar');
+    if (f_registar.length) {
+      f_registar.submit((event) => {
+        event.preventDefault();
+        let data = new FormData(document.getElementById('f_registar'));
+        fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/register.php",
+          {
+            method: "post",
+            body: data
+          })
+          .then(data => data.json())
+          .then(data => {
+            if (data.sucesso !== "true") {
+              alert(data.mensagem);
+            } else {
+              alert(data.mensagem);
+              window.location.assign("login.html");
+            }
+
+          })
+          .catch(err => {
+            console.log(err);
+            alert(err);
+          })
+
+      });
+    }
+
+    let bt_logout = $('.bt-logout');
+    if (bt_logout.length) {
+      bt_logout.click(() => {
+        localStorage.token = null;
+        window.location.assign("login.html");
+      });
+    }
+
+    let bt_cv = $('#cv');
+    if (bt_cv.length) {
+      bt_cv.on('change', function () {
+        let ficheiros = this.files;
+        if (ficheiros.length !== 1) {
+          alert("Por favor selecione 1 ficheiro.");
+          return;
+        }
+        console.log(ficheiros);
+        if (ficheiros[0].type !== "application/pdf") {
+          alert("O ficheiro selecionado tem de ser um pdf!");
+          return;
+        }
+        if (ficheiros[0].size > 20000000) {
+          alert("O ficheiro selecionado é grande demais!");
+          return;
+        }
+
+      });
+    }
+
+
+
     //Generating Dynamic Styles to decrease CSS size and execute faster loading times. 
     var colorsArray = [
       //colors must be in HEX format.
