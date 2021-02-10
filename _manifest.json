@@ -8,7 +8,7 @@
   "short_name": "JORTEC",
   "description": "",
   "orientation": "portrait",
-  "background_color": "#000000",
+  "background_color": "#222222",
   "theme_color": "#FFFFFF",
   "generated": "true",
   "icons": [
