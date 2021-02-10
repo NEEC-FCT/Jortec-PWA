@@ -201,6 +201,8 @@ $(document).ready(function () {
           .then(data => {
             if (data.sucesso !== "true") {
               alert(data.mensagem);
+              eraseCookie('token');
+              window.location.assign('login.html');
             } else {
               posicao.html(data.posicao);
               $('.nomep').html(data.nome);
