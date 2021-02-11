@@ -6266,3 +6266,40 @@ html.lb-disable-scrolling {
 .owl-dots-no-footer .owl-dots {
   transform: translateY(-18px) !important;
 }
+
+.roda {
+  transform: rotate(-180deg);
+  transition: all 5s cubic-bezier(0.3, -0.15, 0.2, 1.0);
+}
+
+.rodar40 {
+  transform: rotate(-1980deg);
+}
+
+.rodar35 {
+  transform: rotate(-2025deg);
+}
+
+.rodar30 {
+  transform: rotate(-2115deg);
+}
+
+.rodar25 {
+  transform: rotate(-2295deg);
+}
+
+.rodar20 {
+  transform: rotate(-2205deg);
+}
+
+.rodar15 {
+  transform: rotate(-2070deg);
+}
+
+.rodar10 {
+  transform: rotate(-2250deg);
+}
+
+.rodar5 {
+  transform: rotate(-2160deg);
+}

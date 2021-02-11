@@ -105,7 +105,91 @@ $(document).ready(function () {
       refreshWorkshopButtons();
     }
 
+    const efetuarRotacao = () => {
+      if (getToken() == null || getToken() == undefined)
+        return;
+      $('.rodarbt').html(`<div class="spinner-border color-highlight mb-2" role="status"></div>`);
 
+      let formData = new FormData();
+      formData.append("token", getToken());
+      formData.append("uid", readCookie('uid'));
+      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/rodar.php", {
+        method: "post",
+        body: formData
+      })
+        .then(data => data.json())
+        .then(data => {
+          if (data.sucesso != "true") {
+            alert(data.mensagem);
+            let html_temp = `<div
+      class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro ao rodar</div>`;
+            $('.rodarbt').html(html_temp);
+          } else {
+            $('.roda').addClass('rodar' + data.valor);
+            setTimeout(() => {
+              $('.rodarpontos').html(`<b>Pontos: ` + data.valor + `</b>`);
+              refreshRodaBtn();
+            }, 5000);
+
+          }
+        })
+        .catch(err => {
+          console.warn(err);
+          console.warn("Não foi possivel rodar");
+          let html_temp = `<div
+      class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro ao rodar</div>`;
+          $('.rodarbt').html(html_temp);
+        });
+    }
+
+    const refreshRodaBtn = () => {
+      if (getToken() == null || getToken() == undefined) {
+        let html_temp = `<a href="login.html"
+          class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full">Entrar na conta</a>`;
+        $('.rodarbt').html(html_temp);
+        return;
+      }
+      let formData = new FormData();
+      formData.append("token", getToken());
+      formData.append("uid", readCookie('uid'));
+      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/pode_rodar.php", {
+        method: "post",
+        body: formData
+      })
+        .then(data => data.json())
+        .then(data => {
+          let html_temp;
+          if (data.sucesso != "true") {
+            console.warn("Não foi possivel obter o estado da roda", data);
+            alert(data.mensagem);
+            let html_temp = `<div
+      class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro ao verificar</div>`;
+            $('.rodarbt').html(html_temp);
+          } else {
+            if (data.roda == "false") {
+              html_temp = `<div
+      class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Já rodaste hoje</div>`;
+            } else {
+              html_temp = `<div 
+      class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full btn-rodar-roda">Rodar!</div>`;
+            }
+            $('.rodarbt').html(html_temp);
+            $('.btn-rodar-roda').click(() => { efetuarRotacao() });
+          }
+        })
+        .catch(err => {
+          console.warn(err);
+          console.warn("Não foi possivel obter o estado da roda");
+          let html_temp = `<div
+      class="btn btn-margins text-uppercase font-900 bg-red1-light rounded-sm mb-4 shadow-xl btn-m btn-full">Erro ao verificar</div>`;
+          $('.rodarbt').html(html_temp);
+        });
+    };
+
+    let rodarbt = $('.rodarbt');
+    if (rodarbt.length) {
+      refreshRodaBtn();
+    }
     //conta
     let f_registar = $('#f_registar');
     if (f_registar.length) {
