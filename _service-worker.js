@@ -11,6 +11,14 @@ workbox.routing.registerRoute(
   new workbox.strategies.NetworkOnly()
 );
 
+workbox.routing.setCatchHandler(({ url, event, params }) => {
+  console.log("Failed: ", url, event, params)
+  const strategy = new workbox.strategies.NetworkFirst({ networkTimeoutSeconds: 10 });
+  return strategy.handle({
+    request: new Request(url),
+  });
+});
+
 
 //console.log('Sticky Service Worker Running');
 
