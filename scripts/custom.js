@@ -34,19 +34,22 @@ $(document).ready(function () {
     subscribeWorkshop = (wid, inscricao = true) => {
       $('.' + wid).html(`<div class="spinner-border color-highlight mb-2" role="status"></div>`);
 
-      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshops.php", {
-        headers: {
-          'Content-Type': 'application/json'
-        },
+      let formData = new FormData();
+      formData.append("token", getToken());
+      formData.append("uid", readCookie('uid'));
+      formData.append("wid", wid);
+      formData.append("inscricao", inscricao);
+      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshopsins.php", {
         method: "POST",
-        body: JSON.stringify({
-          wid,
-          inscricao,
-          token: getToken()
-        })
+        body: formData
       })
         .then(data => data.json())
-        .then(data => refreshWorkshopButtons()) //Verificar resultado, apresentar modal, actualizar botões
+        .then(data => {
+          if (data.sucesso !== "true") {
+            alert(data.mensagem);
+          }
+          refreshWorkshopButtons();
+        }) //Verificar resultado, apresentar modal, actualizar botões
         .catch(err => {
           console.error(err);
           $('.' + wid).html(`<div
@@ -55,7 +58,13 @@ $(document).ready(function () {
     }
 
     const refreshWorkshopButtons = () => {
-      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshops.php")
+      let formData = new FormData();
+      formData.append("token", getToken());
+      formData.append("uid", readCookie('uid'));
+      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/workshops.php", {
+        method: "post",
+        body: formData
+      })
         .then(data => data.json())
         .then(data => {
           let html_temp;
