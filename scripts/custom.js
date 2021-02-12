@@ -99,6 +99,49 @@ $(document).ready(function () {
         });
     };
 
+    //Top10
+    let top10 = $('.top10');
+    if (top10.length) {
+      top10.html(`<div class="text-center"><div class="spinner-border color-highlight mb-2" role="status"></div></div>`);
+      fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/top.php")
+        .then(data => data.json())
+        .then(data => {
+          let html = "";
+          let i = 1;
+          data.forEach(pessoa => {
+            if (i > 1) {
+              html += `<div class="divider mt-4"></div>`;
+            }
+            html += `
+            <div class="d-flex mb-2">
+            <div class="align-self-center mr-2" style="width: 70px">`;
+            if (i == 1) {
+              html += `<img src="images/trofeu_ouro.png" class="mr-2" width="60">`;
+            } else if (i == 2) {
+              html += `<img src="images/trofeu_prata.png" class="mr-2" width="60">`;
+            } else if (i == 3) {
+              html += `<img src="images/trofeu_bronze.png" class="mr-2" width="60">`;
+            } else {
+              html += `<p class="text-black font-24 text-center ml-n1 mr-1">` + i + `º</p>`;
+            }
+
+            html += `</div>
+            <div class="align-self-center w-50">
+              <h5 class="font-500 font-18 pt-2">` + pessoa.nome + `</h5>
+            </div>
+            <div class="ml-auto mr-2 align-self-center color-highlight"><b>` + pessoa.pontos + `</b> pontos</div>
+          </div>
+            `;
+            i++;
+          });
+          top10.html(html);
+        })
+        .catch(err => {
+          console.log(err);
+          top10.html(`<div class="text-center"><p class="font-18 text-white">Não foi possível obter o Top 10</p></div>`);
+        });
+    }
+
     //Workshops
     let ws1 = $('.ws1');
     if (ws1.length) {
