@@ -18,7 +18,8 @@ require 'db.php';
 
 $token    = filter_var($_POST["token"], FILTER_SANITIZE_STRING);
 $uid = filter_var($_POST["uid"], FILTER_SANITIZE_STRING);
-
+$ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
+$ip = filter_var($ip, FILTER_SANITIZE_STRING);
 if (!validateOperation($con, $uid, $token)) {
   $result = array('sucesso' => 'false', 'mensagem' => 'Token inválido.');
   echo json_encode($result);
@@ -33,8 +34,8 @@ if (!podeRodar($con, $uid)) {
 } else {
   $today = date("Y-m-d");
   $valor = rand(1, 8) * 5;
-  $stmt = $con->prepare("INSERT INTO `roda` (`uid`, `data`, `valor`) VALUES (?, ?, ?);");
-  $stmt->bind_param("isi", $uid, $today, $valor);
+  $stmt = $con->prepare("INSERT INTO `roda` (`uid`, `data`, `valor`, `ip`) VALUES (?, ?, ?, ?);");
+  $stmt->bind_param("isis", $uid, $today, $valor, $ip);
   $deu = $stmt->execute();
   $stmt->close();
   if (!$deu) {
