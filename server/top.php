@@ -2,8 +2,8 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 require 'db.php';
-
-$stt = $con->prepare("SELECT `pontos`, `nome` FROM `utilizadores` ORDER BY `utilizadores`.`pontos` DESC LIMIT 10");
+//SELECT `pontos`, `nome` FROM `utilizadores` WHERE `nome` NOT LIKE '%@%' ORDER BY `utilizadores`.`pontos` DESC, `id` ASC LIMIT 10
+$stt = $con->prepare("SELECT `pontos`, `nome` FROM `utilizadores` ORDER BY `utilizadores`.`pontos` DESC, `id` ASC  LIMIT 10");
 $stt->execute();
 $stt->bind_result($pontos, $nome);
 $response;
