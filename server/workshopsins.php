@@ -27,6 +27,20 @@ if (!validateOperation($con, $uid, $token)) {
   die();
 }
 
+$stmt = $con->prepare("SELECT `baned` FROM `utilizadores` WHERE `id` = ?");
+$stmt->bind_param("i", $uid);
+$stmt->execute();
+/* bind result variables */
+$stmt->bind_result($ban);
+if ($stmt->fetch()) {
+  if ($ban != 0) {
+    $result = array('sucesso' => 'false', 'mensagem' => 'Não foi possível inscrever-te no workshop.');
+    echo json_encode($result);
+    die();
+  }
+}
+$stmt->close();
+
 $id = intval(substr($wid, 2));
 $stmt = $con->prepare("SELECT * FROM `workshops` WHERE `id` = ?");
 $stmt->bind_param("i", $id);

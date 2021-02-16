@@ -22,6 +22,9 @@ if ($_POST['senha'] !== $_POST['senharep']) {
 $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
 $nome = filter_var($_POST['nome'], FILTER_SANITIZE_STRING);
 $senha = filter_var($_POST['senha'], FILTER_SANITIZE_STRING);
+$ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
+$ip = filter_var($ip, FILTER_SANITIZE_STRING);
+
 
 require('db.php');
 
@@ -36,6 +39,25 @@ if ($stmtt->num_rows != 0) {
   echo json_encode($result);
   die();
 }
+
+$stmtt->close();
+$stmtt = $con->prepare("SELECT * FROM `ips` WHERE `ip` = ? AND `tempo` > ?");
+$tempoagora = time();
+$stmtt->bind_param("si", $ip, $tempoagora);
+$stmtt->execute();
+$stmtt->store_result();
+if ($stmtt->num_rows != 0) {
+  $result = array('sucesso' => 'false', 'mensagem' => 'Já criaste uma conta hoje.');
+  echo json_encode($result);
+  die();
+}
+$stmtt->close();
+
+$stmtt = $con->prepare("INSERT INTO `ips` (`ip`, `tempo`) VALUES (?, ?)");
+$tempoagora += 3600 * 24;
+$stmtt->bind_param("si", $ip, $tempoagora);
+$stmtt->execute();
+$stmtt->close();
 
 $hash =  password_hash($senha, PASSWORD_DEFAULT);
 $statement = mysqli_prepare($con, "INSERT INTO `utilizadores` (`nome`, `email`, `password`) VALUES (?, ?, ?)");

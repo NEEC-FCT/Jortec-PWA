@@ -24,25 +24,29 @@ if (!validateOperation($con, $uid, $token)) {
   die();
 }
 
-$stmt = $con->prepare("SELECT `nome`, `email`, `pontos`, `inscrito`  FROM `utilizadores` WHERE `id` = ?");
+$stmt = $con->prepare("SELECT `nome`, `email`, `pontos`, `inscrito`, `baned`  FROM `utilizadores` WHERE `id` = ?");
 $stmt->bind_param("i", $uid);
 $stmt->execute();
 /* bind result variables */
-$stmt->bind_result($nome, $email, $pontos, $inscrito);
+$stmt->bind_result($nome, $email, $pontos, $inscrito, $baned);
 if ($stmt->fetch()) {
   $stmt->close();
-  $stt = $con->prepare("SELECT `id` FROM `utilizadores` ORDER BY `utilizadores`.`pontos` DESC");
-  $stt->execute();
-  $p = NULL;
-  $stt->bind_result($p);
-  $i = 0;
-  while ($stt->fetch()) {
-    $i++;
-    if ($p == $uid) {
-      break;
+  if ($baned == 0) {
+    $stt = $con->prepare("SELECT `id` FROM `utilizadores` WHERE `baned` = '0' ORDER BY `utilizadores`.`pontos` DESC");
+    $stt->execute();
+    $p = NULL;
+    $stt->bind_result($p);
+    $i = 0;
+    while ($stt->fetch()) {
+      $i++;
+      if ($p == $uid) {
+        break;
+      }
     }
+    $stt->close();
+  } else {
+    $i = "BAN";
   }
-  $stt->close();
   $response["sucesso"] = "true";
   $response["nome"]   = $nome;
   $response["email"]   = $email;
