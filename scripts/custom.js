@@ -233,6 +233,53 @@ $(document).ready(function () {
     if (rodarbt.length) {
       refreshRodaBtn();
     }
+
+    let codigobt = $('.btn-codigo-sub');
+    if (codigobt.length) {
+      if (getToken() == null || getToken() == undefined) {
+        let html_temp = `<a href="login.html"
+        class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full">Entrar na conta</a>`;
+        codigobt.html(html_temp);
+      } else {
+
+        let html_temp = `<div
+              class="btn btn-margins text-uppercase font-900 bg-highlight rounded-sm mb-4 shadow-xl btn-m btn-full btn-codigo-sub2">
+              Submeter
+            </div>`;
+        codigobt.html(html_temp);
+        codigobt = $('.btn-codigo-sub2');
+        codigobt.on('click', () => {
+          let codigo = $('#codigopassatempo').val();
+          if (!codigo.length) {
+            alert("Nenhum código foi introduzido.");
+            return;
+          }
+          let formData = new FormData();
+          formData.append("token", getToken());
+          formData.append("uid", readCookie('uid'));
+          formData.append("codigo", codigo);
+          fetch("https://jortec-eletro.neec-fct.com/jortec-pwa/server/codigo.php", {
+            method: "post",
+            body: formData
+          })
+            .then(data => data.json())
+            .then(data => {
+              if (data.sucesso == "true") {
+                let pontos = data.pontos;
+                alert("Foram adicionados " + pontos + " pontos à tua conta!");
+              } else {
+                alert(data.mensagem);
+              }
+            })
+            .catch(err => {
+              console.warn(err);
+              alert("Não foi possível verificar o código. Por favor tente mais tarde.");
+            });
+        });
+      }
+    }
+
+
     //conta
     let f_registar = $('#f_registar');
     if (f_registar.length) {
